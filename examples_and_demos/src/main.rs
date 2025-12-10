@@ -3,9 +3,25 @@
 /*
 THE BASICS:
 
-Numbers & Binary:
+Prerequisite Knowledge:
 
 processors read one word at a time -> 4bytes for 32bit systems & 8bytes for 64 bit systems
+
+binary conversions -> 2^0 2^1 2^2 2^3 . . ..
+
+Logic Gates:
+
+AND -> returns 1 only when both inputs are 1 (multiplication) [&& in rust]
+OR -> returns 1 if atleast one input is 1 (addition) [|| in rust]
+XOR -> returns 1 if input is different and 0 if same (exclusive or) [^ in rust]
+
+Bitwise Shifts:
+
+Left_Shift -> 1<<5 (00000001) becomes (00100000) so output will be 32
+Right_Shift -> 128>>2 (10000000) becomes (00100000) so output will be 32
+
+
+
 
 Variables:
 let a = 5 ( immutable and type is optional *inferred* )
@@ -39,12 +55,18 @@ a: char (4 byte unicode scalar value)
 strings->
 String keyword (heap-allocated, owned and growable, UTF8-Encoded)
 &str keyword (borrowed immutable reference to sequence of UTF-8 bytes, fixed size, efficient)
+ONLY USE DOUBLE QUOTES FOR STRINGS SINGLE QUOTES ARE ONLY FOR CHAR
 
 name = "alice";
 let mut my_str = String::from("Hello");
 my_str.push_str(" World!") *we can append strings to other strings if String*
 let info = format!("Hello, {}",name); *inlining variables in strings*
 message = info + my_str *we can concat strings*
+
+unit->
+0 bytes basically rusts version of null
+let _z :() = ();
+asssertions return unit that is why we cannot use assert as a condition in an if else statement
 
 Type Conversion:
 let v: u16 = 31_u8 as u16; *we can specify type directly on number with _typename, as keyword to convert one type to another*
@@ -72,23 +94,44 @@ Unused Variables:
 or
 #![allow(unused)] *covers unused variables, functions, assignments,etc*
 
-let _x = 1 *adding underscore before varaible means unused variable makes it unsuable in code*
+let _x = 1 *adding underscore before varaible makes it an unused variable, use _x when using the variable also*
 
 
 Destructuring Assignments:
 
-let (x,y);ṣ
+let (x,y);
 (x,..) = (3,4) *.. means to ignore the 2nd value*
 [..,y] = [1,2]
 assert_eq!([x,y],[3,2])
 
-
+Functions:
+Types of the parameters of the function need to be annotated (specified)
+there is no return keyword just giving variable WITHOUT SEMICOLON means it needs to be returned
+fn sum(x:i32, y:i32){
+    x+y; //this will return unit type since we are not specifying any return
+}
+fn sum(x:i32, y:i32){
+    x+y //this works because we are returning x+y
+}
 
 */
 
 //for each question first call with 0 for question output and 1 for solution output
 
-fn ascii_vals(a: i8) {
+fn unit_trick(a: i8) {
+    // adding a semicolon on the definition of a variable returns unit
+    if a == 0 {
+        let z = {
+            2 * 2;
+        };
+        println!("{:?}", z);
+    } else if a == 1 {
+        let z = { 2 * 2 };
+        println!("{}", z);
+    }
+}
+
+fn _ascii_vals(a: i8) {
     //output 97-122 with one line change
     if a == 0 {
         for c in 'a'..='z' {
@@ -117,6 +160,4 @@ fn integer_check_trickq(a: i8) {
     // by providing type as f32 it doesn't fuck up the calc
 }
 
-fn main() {
-    ascii_vals(1);
-}
+fn main() {}
