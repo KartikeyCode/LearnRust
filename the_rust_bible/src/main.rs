@@ -1,14 +1,14 @@
 #![allow(unused)]
 
 /*
-THE BASICS:
-
+THE RUST BIBLE:
+----------------------------------------------------------------------------------------------
 Prerequisite Knowledge:
 
 processors read one word at a time -> 4bytes for 32bit systems & 8bytes for 64 bit systems
 
 binary conversions -> 2^0 2^1 2^2 2^3 . . ..
-
+----------------------------------------------------------------------------------------------
 Logic Gates:
 
 AND -> returns 1 only when both inputs are 1 (multiplication) [&& in rust]
@@ -20,9 +20,7 @@ Bitwise Shifts:
 Left_Shift -> 1<<5 (00000001) becomes (00100000) so output will be 32
 Right_Shift -> 128>>2 (10000000) becomes (00100000) so output will be 32
 
-
-
-
+----------------------------------------------------------------------------------------------
 Variables:
 let a = 5 ( immutable and type is optional *inferred* )
 let a mut = 5 (mut keyword makes the variable mutable)
@@ -53,8 +51,8 @@ characters->
 a: char (4 byte unicode scalar value)
 
 strings->
-String keyword (heap-allocated, owned and growable, UTF8-Encoded)
-&str keyword (borrowed immutable reference to sequence of UTF-8 bytes, fixed size, efficient)
+String keyword(mutable,heap-allocated(stack holds the pointer to value of the string in heap), owned and growable, UTF8-Encoded)
+&str keyword(borrowed immutable reference to sequence of UTF-8 bytes, fixed size, efficient)
 ONLY USE DOUBLE QUOTES FOR STRINGS SINGLE QUOTES ARE ONLY FOR CHAR
 
 name = "alice";
@@ -71,12 +69,12 @@ asssertions return unit that is why we cannot use assert as a condition in an if
 Type Conversion:
 let v: u16 = 31_u8 as u16; *we can specify type directly on number with _typename, as keyword to convert one type to another*
 
-
+----------------------------------------------------------------------------------------------
 Printing:
 print!("Hello") (prints Hello)
 println!("Hello") (prints Hello followed by a newline)
 
-
+----------------------------------------------------------------------------------------------
 Shadowing:
 we can declare a new variable with the same name to overshadow the first one
 let x = 5;
@@ -86,7 +84,7 @@ assert_eq!(x,5); *assert_eq checks if 2 given values are equal*
 }
 assert_eq!(x,12);
 
-
+----------------------------------------------------------------------------------------------
 Unused Variables:
 2 ways to hide the warnings that appear when you have unused vars:
 
@@ -96,7 +94,7 @@ or
 
 let _x = 1 *adding underscore before varaible makes it an unused variable, use _x when using the variable also*
 
-
+----------------------------------------------------------------------------------------------
 Destructuring Assignments:
 
 let (x,y);
@@ -104,7 +102,9 @@ let (x,y);
 [..,y] = [1,2]
 assert_eq!([x,y],[3,2])
 
+----------------------------------------------------------------------------------------------
 Functions:
+
 Types of the parameters of the function need to be annotated (specified)
 there is no return keyword just giving variable WITHOUT SEMICOLON means it needs to be returned
 fn sum(x:i32, y:i32){
@@ -113,6 +113,52 @@ fn sum(x:i32, y:i32){
 fn sum(x:i32, y:i32){
     x+y //this works because we are returning x+y
 }
+
+Diverging Functions:
+Functions that are not allowed to return any data when called
+3 ways: panic!() / unimplemented!() / todo!()
+
+fn never_return() -> ! {
+    panic!("I AM PANICKING") // or unimplemented!() or todo!()
+}
+----------------------------------------------------------------------------------------------
+Ownership:
+- Exclusive to rust
+- set of rules that govern memory management
+- rules are enforced at compile time
+- if any rules are violated the program won't compile
+
+3 main rules:
+    1) Each value in rust has an owner
+    2) there can only be one owner at a time
+    3) When the owner goes out of scope the value will be dropped
+
+Owner -> the owner of a value is the variable/data structure that the value is being assigned to.
+         It is responsible for allocating and freeing the memory used to store that data.
+Memory -> 2 regions in RAM used by program at runtime: stack memory and heap memory
+Stack memory -> LIFO, all data stored must have fixed size, pushing to stack faster than heap,
+                if unknown size then pushed to heap and a pointer to the value pushed to stack.
+
+Heap memory -> data of unknown size is allocated to heap
+               returns a pointer to the memory address where data has been stored\
+               allocating on heap is slower than pushing to stack
+               accessing data on heap is also slower than stack since we have to access the pointer first
+
+Copy -> when assigning one var to another with FIXED SIZE then it copies and both variables are usable
+        ex- let x = 5; let y = x;
+
+Move -> when assigning one var to another with UNKNOWN SIZE then it only copies the pointer to the values in heap
+        and drops the previous variable.
+        ex- let s1 = String::from("hello");
+            let s2 = s1;
+
+Deep Copy -> when assigning one var to another with UNKNOWN SIZE then it makes a copy of all the data stored in heap so that
+             we can keep both variables without disturbing second rule of ownership
+             (the second variable will be pointing to the copy of the data of first variable and this copy is having
+             a different memory address from the previous variable )
+            let s1  = String::from("hello");
+            let s2 = s1.clone();
+
 
 */
 
