@@ -122,7 +122,7 @@ fn never_return() -> ! {
     panic!("I AM PANICKING") // or unimplemented!() or todo!()
 }
 ----------------------------------------------------------------------------------------------
-Ownership:
+Ownership: (do check out the example questions after comments for more clarity)
 - Exclusive to rust
 - set of rules that govern memory management
 - rules are enforced at compile time
@@ -160,9 +160,32 @@ Deep Copy -> when assigning one var to another with UNKNOWN SIZE then it makes a
             let s2 = s1.clone();
 
 
+
 */
 
 //for each question first call with 0 for question output and 1 for solution output
+
+fn ownership_and_functions() {
+    //fix the error
+    let s = String::from("hello"); // s is in current scope
+
+    takes_ownership(s); //s's value goes into function and is no longer valid and not usable in this scope
+
+    let x = 5; //x is in current scope
+
+    makes_copy(x); //x goes into function but i32 is fixed so we x would still be valid and usable in this scope
+
+    println!("{}", s); // this will throw err because s is no longer owned by ownership_and_functions function.
+    println!("{}", x); // this is usable as copy is made for fixed size vars.
+
+    fn takes_ownership(any_string: String) {
+        println!("{}", any_string);
+    }
+
+    fn makes_copy(any_int: i32) {
+        println!("{}", any_int);
+    }
+}
 
 fn unit_trick(a: i8) {
     // adding a semicolon on the definition of a variable returns unit
